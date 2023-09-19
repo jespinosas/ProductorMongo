@@ -1,0 +1,17 @@
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-undertow'
+    implementation project(':usecase')
+    implementation project(':model')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+    implementation 'io.cloudevents:cloudevents-core:2.4.2'
+    implementation 'io.cloudevents:cloudevents-http-basic:2.4.2'
+    implementation 'io.cloudevents:cloudevents-json-jackson:2.4.2'
+    implementation 'io.cloudevents:cloudevents-spring:2.4.2'
+}
+
+
+configurations{
+	implementation.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+}
