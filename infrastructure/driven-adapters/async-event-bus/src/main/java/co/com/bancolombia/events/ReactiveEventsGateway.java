@@ -37,30 +37,30 @@ public class ReactiveEventsGateway implements EventsGateway {
     @Override
     public Mono<String> emit(Usuario usuario) {
         CloudEvent event = null;
-        CloudEvent query = null;
+        /*CloudEvent query = null;*/
         try {
-            query = CloudEventBuilder.v1() //
+            /*query = CloudEventBuilder.v1() //
                     .withId(UUID.randomUUID().toString()) //
                     .withSource(URI.create("https://spring.io/foos"))//
                     .withType("query") //
                     .withTime(OffsetDateTime.now())
                     .withData("application/json", om.writeValueAsBytes(usuario))
-                    .build();
+                    .build();*/
 
-
-            /*event = CloudEventBuilder.v1() //
+            event = CloudEventBuilder.v1() //
                     .withId(UUID.randomUUID().toString()) //
                     .withSource(URI.create("https://spring.io/foos"))//
+                    .withSubject("hello")
                     .withType("event") //
                     .withDataContentType("application/json")
                     .withTime(OffsetDateTime.now())
                     .withData("application/json", om.writeValueAsBytes(usuario))
-                    .build();*/
+                    .build();
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return Mono.from(domainEventBus.emit(new DomainEvent<String>(EVENT_USER, UUID.randomUUID().toString(),
-                        "test")))
+        return Mono.from(domainEventBus.emit(new DomainEvent<CloudEvent>(EVENT_USER, UUID.randomUUID().toString(),
+                        event)))
                 .thenReturn("ok");
         /*Mono<CloudEvent> response = directAsyncGateway
                 .requestReply(new AsyncQuery<CloudEvent>("query",query),
