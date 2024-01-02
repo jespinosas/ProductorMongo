@@ -1,9 +1,9 @@
 package co.com.bancolombia.model.events.gateways;
 
-import co.com.bancolombia.model.usuario.Usuario;
+import co.com.bancolombia.model.usuario.Operation;
 import reactor.core.publisher.Mono;
 
 public interface EventsGateway {
-    Mono<String> emit(Usuario usuario);
+    Mono<String> emit(Operation operation);
 
 }

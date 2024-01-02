@@ -1,5 +1,5 @@
 package co.com.bancolombia.api;
-import co.com.bancolombia.model.usuario.Usuario;
+import co.com.bancolombia.model.usuario.Operation;
 import co.com.bancolombia.usecase.emitevent.EmitEventUseCase;
 
 import lombok.AllArgsConstructor;
@@ -15,8 +15,8 @@ public class ApiRest {
 
 
     @PostMapping(path = "/path")
-    public Mono<String> emitEvent(@RequestBody Usuario usuario) {
+    public Mono<String> emitEvent(@RequestBody Operation operation) {
 
-        return useCase.emitEvent(usuario);
+        return useCase.emitEvent(operation);
     }
 }

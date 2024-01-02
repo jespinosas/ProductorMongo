@@ -1,15 +1,13 @@
 package co.com.bancolombia.model.usuario;
-import lombok.*;
-import lombok.NoArgsConstructor;
 
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class Usuario {
+public class Transaction {
 
-    private String nombre;
-    private String numero;
+    private String id;
 }

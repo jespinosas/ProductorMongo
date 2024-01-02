@@ -1,7 +1,7 @@
 package co.com.bancolombia.events;
 
 import co.com.bancolombia.model.events.gateways.EventsGateway;
-import co.com.bancolombia.model.usuario.Usuario;
+import co.com.bancolombia.model.usuario.Operation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cloudevents.CloudEvent;
@@ -10,19 +10,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.reactivecommons.api.domain.DomainEvent;
 import org.reactivecommons.api.domain.DomainEventBus;
-import org.reactivecommons.async.api.AsyncQuery;
 import org.reactivecommons.async.api.DirectAsyncGateway;
 import org.reactivecommons.async.impl.config.annotations.EnableDomainEventBus;
-import org.reactivecommons.async.rabbit.converters.json.CloudEventBuilderExt;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import java.util.UUID;
-import java.util.logging.Level;
-
-import static reactor.core.publisher.Mono.from;
 
 @Log
 @RequiredArgsConstructor
@@ -35,7 +29,7 @@ public class ReactiveEventsGateway implements EventsGateway {
 
 
     @Override
-    public Mono<String> emit(Usuario usuario) {
+    public Mono<String> emit(Operation operation) {
         CloudEvent event = null;
         /*CloudEvent query = null;*/
         try {
@@ -50,16 +44,16 @@ public class ReactiveEventsGateway implements EventsGateway {
             event = CloudEventBuilder.v1() //
                     .withId(UUID.randomUUID().toString()) //
                     .withSource(URI.create("https://spring.io/foos"))//
-                    .withSubject("hello")
+                    .withSubject("fa5ea894-3c56-11ee-be56-0242ac120012")
                     .withType("event") //
                     .withDataContentType("application/json")
                     .withTime(OffsetDateTime.now())
-                    .withData("application/json", om.writeValueAsBytes(usuario))
+                    .withData("application/json", om.writeValueAsBytes(operation))
                     .build();
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return Mono.from(domainEventBus.emit(new DomainEvent<CloudEvent>(EVENT_USER, UUID.randomUUID().toString(),
+        return Mono.from(domainEventBus.emit(new DomainEvent<CloudEvent>("event.nu2770001-webhooks-integration.webhook.execute", UUID.randomUUID().toString(),
                         event)))
                 .thenReturn("ok");
         /*Mono<CloudEvent> response = directAsyncGateway
